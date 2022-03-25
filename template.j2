@@ -1,2 +1,1 @@
-Hostname: {{ hostname }}
-Learned Platform: {{ platform }}
+{{ learned_platform | replace("\'", "\"")}}

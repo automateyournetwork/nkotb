@@ -50,7 +50,7 @@ class NetworkToBlockchain(object):
         # Loop over devices
         # ---------------------------------------
         for device in self.connect_device():
-            hostname = device.alias
+            device.alias
             device.connect()
         # Learn Interace to JSON
             try:
@@ -58,15 +58,14 @@ class NetworkToBlockchain(object):
             except:
                 learn_platform = f"{ hostname } has no Interface to Learn"
         
-        return(hostname,learn_platform)
+        return(learn_platform)
 
     def template_output(self):
         template_dir = Path(__file__).resolve().parent
         env = Environment(loader=FileSystemLoader(template_dir))
         device_template = env.get_template('template.j2')
         captured_info = self.capture_state()
-        parsed_output = device_template.render(hostname = captured_info[0], learned_platform = captured_info[1])
-        return(parsed_output)
+        return(captured_info)
 
 class Block(object):
     def __init__(self,NetworkToBlockchain,index,timestamp,data,prevhash):
@@ -114,3 +113,7 @@ print (f"Block Timestamp: { addblock.timestamp }")
 print (f"Hash of the Block: { addblock.hash }")
 print (f"Previous Block Hash: { addblock.prevhash }")
 print (f"Block Data: { addblock.data } \n")
+
+print ("Example of querying the blockchain")
+print (f"Hostname is { addblock.data['virtual_device']['1']['vd_name'] }")
+print (f"Serial Number is { addblock.data['chassis_sn'] }")
